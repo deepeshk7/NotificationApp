@@ -79,6 +79,7 @@ export const useUnifiedLocalization = () => {
     options: {
       unreadNotifications: t(bottomSheetData.options.unreadNotifications),
       markAsRead: t(bottomSheetData.options.markAsRead),
+      markAsUnread: t(bottomSheetData.options.markAsUnread || { en: "Mark as unread", es: "Marcar como no leído" }),
       deleteNotifications: t(bottomSheetData.options.deleteNotifications),
       deleteAllNotifications: t(bottomSheetData.options.deleteAllNotifications),
       adminNotifications: t(bottomSheetData.options.adminNotifications)
@@ -103,8 +104,8 @@ export const useUnifiedLocalization = () => {
       deleteError: t(demoScreenData.toasts.deleteError),
       allMarkedRead: t(demoScreenData.toasts.allMarkedRead),
       markReadError: t(demoScreenData.toasts.markReadError),
-    //   refreshSuccess: t(demoScreenData.toasts.refreshSuccess || { en: 'Notifications updated', es: 'Notificaciones actualizadas' }),
-    //   refreshError: t(demoScreenData.toasts.refreshError || { en: 'Failed to refresh', es: 'Error al actualizar' })
+      refreshSuccess: t(demoScreenData.toasts.refreshSuccess || { en: 'Notifications updated', es: 'Notificaciones actualizadas' }),
+      refreshError: t(demoScreenData.toasts.refreshError || { en: 'Failed to refresh', es: 'Error al actualizar' })
     }
   });
 

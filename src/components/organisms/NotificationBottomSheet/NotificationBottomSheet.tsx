@@ -9,19 +9,20 @@ import {
   Platform,
   Text
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { useUnifiedLocalization } from '../../../hooks/useUnifiedLocalization';
 import { CustomIcon } from '../../atoms/Icon/Icon';
 import { Overlay } from '../../atoms/Overlay/Overlay';
 import { BottomSheetOption } from '../../molecules/BottomSheetOption/BottomSheetOption';
 import { fonts } from '../../../config/fonts.ts';
 import { spacing, radius } from '../../../config/styleConsts.ts';
 import { LocalizedNotificationItem } from '../../../viewmodels/NotificationBottomSheetViewModel';
+import { notificationBottomSheetStyles as styles } from '../../../config/styles/organisms/NotificationBottomSheetStyles';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface NotificationBottomSheetProps {
   visible: boolean;
-  selectedNotification?: LocalizedNotificationItem | null; // ADD THIS
+  selectedNotification?: LocalizedNotificationItem | null;
   onClose: () => void;
   onUnreadNotifications: () => void;
   onMarkAsRead: () => void;
@@ -32,7 +33,7 @@ interface NotificationBottomSheetProps {
 
 export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = ({
   visible,
-  selectedNotification, // ADD THIS
+  selectedNotification,
   onClose,
   onUnreadNotifications,
   onMarkAsRead,
@@ -40,7 +41,8 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
   onDeleteAll,
   onAdminNotifications
 }) => {
-  const { t } = useTranslation();
+  const { getBottomSheetStrings } = useUnifiedLocalization();
+  const strings = getBottomSheetStrings();
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
 
   useEffect(() => {
@@ -79,7 +81,7 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
     {
       icon: 'notifications-none',
       iconType: 'material' as const,
-      label: t('bottomSheet.options.unreadNotifications'),
+      label: strings.options.unreadNotifications,
       onPress: () => {
         onUnreadNotifications();
         onClose();
@@ -90,8 +92,8 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
       icon: isRead ? 'markunread' : 'check-circle-outline',
       iconType: 'material' as const,
       label: isRead 
-        ? t('bottomSheet.options.markAsUnread', 'Mark as unread') 
-        : t('bottomSheet.options.markAsRead', 'Mark as read'),
+        ? strings.options.markAsUnread
+        : strings.options.markAsRead,
       onPress: () => {
         onMarkAsRead();
         onClose();
@@ -100,7 +102,7 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
     {
       icon: 'delete-outline',
       iconType: 'material' as const,
-      label: t('bottomSheet.options.deleteNotifications'),
+      label: strings.options.deleteNotifications,
       onPress: () => {
         onDeleteNotifications();
         onClose();
@@ -109,7 +111,7 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
     {
       icon: 'delete-sweep',
       iconType: 'material' as const,
-      label: t('bottomSheet.options.deleteAllNotifications'),
+      label: strings.options.deleteAllNotifications,
       onPress: () => {
         onDeleteAll();
       }
@@ -117,7 +119,7 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
     {
       icon: 'settings',
       iconType: 'material' as const,
-      label: t('bottomSheet.options.adminNotifications'),
+      label: strings.options.adminNotifications,
       onPress: () => {
         onAdminNotifications();
         onClose();
@@ -139,7 +141,7 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
         
         <View style={styles.header}>
           <Text style={styles.headerTitle}>
-            {t('bottomSheet.title')}
+            {strings.title}
           </Text>
           <TouchableOpacity 
             onPress={onClose}
@@ -168,54 +170,3 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
   );
 };
 
-const styles = StyleSheet.create({
-  bottomSheet: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: radius.xl,
-    borderTopRightRadius: radius.xl,
-    maxHeight: SCREEN_HEIGHT * 0.75,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: -3
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 10,
-  },
-  handleContainer: {
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
-  handle: {
-    width: 36,
-    height: 4,
-    backgroundColor: '#DCDCDC',
-    borderRadius: 2,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: spacing.m,
-    paddingBottom: spacing.s,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0'
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: '300',
-    color: '#000000',
-    fontFamily: fonts.franklinGothicURW,
-    letterSpacing: -0.5,
-  },
-  closeButton: {
-    padding: 4,
-  },
-  optionsContainer: {
-    paddingTop: 8,
-  },
-  bottomPadding: {
-    height: Platform.OS === 'ios' ? 34 : spacing.m,
-  }
-});

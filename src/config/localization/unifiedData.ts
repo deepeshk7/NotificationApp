@@ -30,7 +30,8 @@ export interface LocalizedText {
         en: "Mark as read",
         es: "Marcar como leído"
       },
-      markAsUnread: {
+      
+      markAsUnread: {  // ADD THIS
         en: "Mark as unread",
         es: "Marcar como no leído"
       },
@@ -102,13 +103,21 @@ export interface LocalizedText {
         en: "Error deleting notifications",
         es: "Error al eliminar notificaciones"
       },
-      allMarkedRead: {
+      allMarkedRead: {  // THIS WAS MISSING
         en: "All notifications marked as read",
         es: "Todas las notificaciones marcadas como leídas"
       },
       markReadError: {
         en: "Error marking notifications",
         es: "Error al marcar notificaciones"
+      },
+      markedAsRead: {  // ADD THIS
+        en: "Marked as read",
+        es: "Marcado como leído"
+      },
+      markedAsUnread: {  // ADD THIS
+        en: "Marked as unread",
+        es: "Marcado como no leído"
       },
       refreshSuccess: {
         en: "Notifications updated",
