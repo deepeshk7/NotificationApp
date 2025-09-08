@@ -27,7 +27,9 @@
         "allDeleted": "Todas las notificaciones eliminadas",
         "deleteError": "Error al eliminar notificaciones",
         "allMarkedRead": "Todas las notificaciones marcadas como leídas",
-        "markReadError": "Error al marcar notificaciones"
+        "markReadError": "Error al marcar notificaciones",
+        "markedAsRead": "Marcado como leído",
+        "markedAsUnread": "Marcado como no leído"
       }
     },
     "notifications": {

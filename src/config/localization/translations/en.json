@@ -27,8 +27,11 @@
         "allDeleted": "All notifications deleted",
         "deleteError": "Error deleting notifications",
         "allMarkedRead": "All notifications marked as read",
-        "markReadError": "Error marking notifications"
+        "markReadError": "Error marking notifications",
+        "markedAsRead": "Marked as read",
+        "markedAsUnread": "Marked as unread"
       }
+
     },
     "notifications": {
       "items": {

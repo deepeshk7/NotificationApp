@@ -46,7 +46,7 @@ export class NotificationBottomSheetViewModel {
     } catch (error) {
       console.error('Error refreshing notifications:', error);
       if (this.showToast) {
-        this.showToast(i18n.t('demoScreen.toasts.refreshError', 'Failed to refresh'), 'error');
+        this.showToast(i18n.t('demoScreen.toasts.refreshError'), 'error');
       }
       throw error;
     }
