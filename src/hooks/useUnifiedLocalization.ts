@@ -11,6 +11,7 @@ import {
 } from '../config/localization/unifiedData';
 import NotificationListModel from '../models/NotificationListModel';
 
+// Make sure the function is exported with 'export'
 export const useUnifiedLocalization = () => {
   // Fix: Initialize from i18n current language
   const [currentLanguage, setCurrentLanguage] = useState<'en' | 'es'>(
@@ -44,8 +45,12 @@ export const useUnifiedLocalization = () => {
   const switchLanguage = async () => {
     const newLang = currentLanguage === 'es' ? 'en' : 'es';
     
-    // Save the language preference to AsyncStorage
-    await saveLanguage(newLang);
+    // Save the language preference to AsyncStorage (if saveLanguage is implemented)
+    try {
+      await saveLanguage(newLang);
+    } catch (error) {
+      console.log('Could not save language preference:', error);
+    }
     
     // Update state and i18n
     setCurrentLanguage(newLang);
@@ -55,8 +60,12 @@ export const useUnifiedLocalization = () => {
 
   // Add a specific language setter with persistence
   const setLanguage = async (language: 'en' | 'es') => {
-    // Save the language preference to AsyncStorage
-    await saveLanguage(language);
+    // Save the language preference to AsyncStorage (if saveLanguage is implemented)
+    try {
+      await saveLanguage(language);
+    } catch (error) {
+      console.log('Could not save language preference:', error);
+    }
     
     // Update state and i18n
     setCurrentLanguage(language);
