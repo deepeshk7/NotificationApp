@@ -1,3 +1,4 @@
+// screens/DemoScreen.tsx
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -15,6 +16,13 @@ import { NotificationBottomSheetViewModel, LocalizedNotificationItem } from '../
 import { Typography } from '../components/atoms/Typography/Typography';
 import NotificationListModel from '../models/NotificationListModel';
 import { useUnifiedLocalization } from '../hooks/useUnifiedLocalization';
+
+// Import all styles from the new structure
+import { demoScreenStyles } from '../config/styles/screens/DemoScreenStyles';
+import { demoScreenHeaderStyles } from '../config/styles/molecules/DemoScreenHeaderStyles';
+import { notificationListStyles } from '../config/styles/organisms/NotificationListStyles';
+import { notificationCardStyles } from '../config/styles/molecules/NotificationCardStyles';
+import { notificationDotStyles } from '../config/styles/atoms/NotificationDotStyles';
 
 export const DemoScreen: React.FC = () => {
   const { 
@@ -79,22 +87,22 @@ export const DemoScreen: React.FC = () => {
   const renderNotification = ({ item }: { item: LocalizedNotificationItem }) => {
     return (
       <TouchableOpacity
-        style={styles.notificationCard}
+        style={notificationCardStyles.notificationCard}
         onLongPress={() => handleLongPress(item)}
         delayLongPress={500}
       >
-        <View style={styles.notificationContent}>
-          {!item.isRead && <View style={styles.unreadDot} />}
-          <View style={styles.textContent}>
-            <Text style={styles.notificationTitle}>{item.title}</Text>
-            <Text style={styles.notificationMessage} numberOfLines={2}>
+        <View style={notificationCardStyles.notificationContent}>
+          {!item.isRead && <View style={notificationDotStyles.unreadDot} />}
+          <View style={notificationCardStyles.textContent}>
+            <Text style={notificationCardStyles.notificationTitle}>{item.title}</Text>
+            <Text style={notificationCardStyles.notificationMessage} numberOfLines={2}>
               {item.description}
             </Text>
-            <Text style={styles.timestamp}>{formatDate(item.date)}</Text>
+            <Text style={notificationCardStyles.timestamp}>{formatDate(item.date)}</Text>
           </View>
           <Image 
             source={{ uri: item.image }} 
-            style={styles.thumbnail}
+            style={notificationCardStyles.thumbnail}
             defaultSource={{ uri: 'https://via.placeholder.com/60' }}
           />
         </View>
@@ -103,27 +111,30 @@ export const DemoScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={demoScreenStyles.container}>
+      <View style={demoScreenHeaderStyles.header}>
         <Typography variant="title">{strings.title}</Typography>
         <TouchableOpacity 
-          style={styles.languageToggle}
+          style={demoScreenHeaderStyles.languageToggle}
           onPress={switchLanguage}
         >
-          <Text style={styles.languageText}>
+          <Text style={demoScreenHeaderStyles.languageText}>
             {currentLanguage.toUpperCase()}
           </Text>
         </TouchableOpacity>
       </View>
       
-
       <FlatList
         data={notifications}
         renderItem={renderNotification}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={notifications.length === 0 ? styles.emptyListContent : styles.listContent}
+        contentContainerStyle={
+          notifications.length === 0 
+            ? notificationListStyles.emptyListContent 
+            : notificationListStyles.listContent
+        }
         ListEmptyComponent={
-          <View style={styles.emptyContainer}>
+          <View style={notificationListStyles.emptyContainer}>
             <Typography variant="body">{strings.emptyMessage}</Typography>
           </View>
         }
@@ -159,95 +170,3 @@ export const DemoScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5'
-  },
-  header: {
-    padding: 16,
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  languageToggle: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 4,
-    backgroundColor: '#f0f0f0'
-  },
-  languageText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333'
-  },
-  listContent: {
-    padding: 16
-  },
-  emptyListContent: {
-    flex: 1,
-    padding: 16
-  },
-  notificationCard: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    marginBottom: 12,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2
-  },
-  notificationContent: {
-    flexDirection: 'row',
-    alignItems: 'flex-start'
-  },
-  unreadDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#e53935',
-    marginTop: 6,
-    marginRight: 8
-  },
-  textContent: {
-    flex: 1,
-    marginRight: 12
-  },
-  notificationTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1a1a1a',
-    marginBottom: 4
-  },
-  notificationMessage: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
-    lineHeight: 20
-  },
-  timestamp: {
-    fontSize: 12,
-    color: '#999'
-  },
-  thumbnail: {
-    width: 60,
-    height: 60,
-    borderRadius: 4,
-    backgroundColor: '#f0f0f0'
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 100
-  }
-});
