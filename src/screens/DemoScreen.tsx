@@ -13,6 +13,7 @@ import { NotificationBottomSheet } from '../components/organisms/NotificationBot
 import { ConfirmationModal } from '../components/molecules/ConfirmationModal/ConfirmationModal';
 import { NotificationBottomSheetViewModel, LocalizedNotificationItem } from '../viewmodels/NotificationBottomSheetViewModel';
 import { Typography } from '../components/atoms/Typography/Typography';
+import { RefreshControl } from '../components/atoms/RefreshControl/RefreshControl';
 import NotificationListModel from '../models/NotificationListModel';
 import { useUnifiedLocalization } from '../hooks/useUnifiedLocalization';
 
@@ -28,6 +29,7 @@ export const DemoScreen: React.FC = () => {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState<LocalizedNotificationItem | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Load notifications from model on mount and when language changes
   useEffect(() => {
@@ -46,6 +48,18 @@ export const DemoScreen: React.FC = () => {
       Alert.alert(alertTitle, message);
     }
   );
+
+  // Pull to refresh handler
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await viewModel.refreshNotifications();
+    } catch (error) {
+      console.error('Refresh failed:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleLongPress = (notification: LocalizedNotificationItem) => {
     setSelectedNotification(notification);
@@ -115,13 +129,18 @@ export const DemoScreen: React.FC = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      
 
       <FlatList
         data={notifications}
         renderItem={renderNotification}
         keyExtractor={(item) => item.id}
         contentContainerStyle={notifications.length === 0 ? styles.emptyListContent : styles.listContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
+        }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Typography variant="body">{strings.emptyMessage}</Typography>

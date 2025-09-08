@@ -23,6 +23,35 @@ export class NotificationBottomSheetViewModel {
     this.showToast = showToast;
   }
 
+  // Refresh notifications (simulate API call)
+  refreshNotifications = async (): Promise<void> => {
+    try {
+      // Simulate API delay
+      await new Promise<void>(resolve => setTimeout(() => resolve(), 1500));
+      
+      // In production, this would be an API call:
+      // const response = await fetch('/api/notifications');
+      // const data = await response.json();
+      // NotificationListModel.setNotifications(data);
+      
+      // For now, just reload from model
+      const refreshedNotifications = NotificationListModel.getAllNotifications();
+      this.setNotifications(refreshedNotifications);
+      
+      if (this.showToast) {
+        this.showToast(i18n.t('demoScreen.toasts.refreshSuccess', 'Notifications updated'), 'success');
+      }
+      
+      console.log('Notifications refreshed successfully');
+    } catch (error) {
+      console.error('Error refreshing notifications:', error);
+      if (this.showToast) {
+        this.showToast(i18n.t('demoScreen.toasts.refreshError', 'Failed to refresh'), 'error');
+      }
+      throw error;
+    }
+  };
+
   deleteAllNotifications = (): void => {
     try {
       // Clear notifications in model
@@ -85,7 +114,7 @@ export class NotificationBottomSheetViewModel {
   handleDeleteNotifications = (): void => {
     console.log('Open delete notifications screen');
     // Navigation logic will be added by team
-  };
+};
 
   handleAdminNotifications = (): void => {
     console.log('Open admin notifications settings');
