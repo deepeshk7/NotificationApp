@@ -24,7 +24,7 @@ import { notificationListStyles } from '../config/styles/organisms/NotificationL
 import { notificationCardStyles } from '../config/styles/molecules/NotificationCardStyles';
 import { notificationDotStyles } from '../config/styles/atoms/NotificationDotStyles';
 
-export const DemoScreen: React.FC = () => {
+export const NotificationScreen: React.FC = () => {
   const { 
     currentLanguage, 
     switchLanguage, 
