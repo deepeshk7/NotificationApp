@@ -118,6 +118,16 @@ class NotificationListModel {
     const notification = this.notifications.find(n => n.id === id);
     if (notification) {
       notification.isRead = true;
+      console.log(`Notification ${id} marked as read`);
+    }
+  }
+
+  // Mark single notification as unread - THIS WAS MISSING
+  markAsUnread(id: string): void {
+    const notification = this.notifications.find(n => n.id === id);
+    if (notification) {
+      notification.isRead = false;
+      console.log(`Notification ${id} marked as unread`);
     }
   }
 

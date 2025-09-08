@@ -30,6 +30,10 @@ export interface LocalizedText {
         en: "Mark as read",
         es: "Marcar como leído"
       },
+      markAsUnread: {
+        en: "Mark as unread",
+        es: "Marcar como no leído"
+      },
       deleteNotifications: {
         en: "Delete notifications",
         es: "Eliminar notificaciones"

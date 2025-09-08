@@ -129,8 +129,8 @@ export class NotificationBottomSheetViewModel {
       // Mark single notification as read in model
       NotificationListModel.markAsRead(notificationId);
       
-      // Get updated notifications from model
-      const updatedNotifications = NotificationListModel.getAllNotifications();
+      // IMPORTANT: Force a new array to trigger React re-render
+      const updatedNotifications = [...NotificationListModel.getAllNotifications()];
       this.setNotifications(updatedNotifications);
       
       if (this.showToast) {
@@ -150,7 +150,7 @@ export class NotificationBottomSheetViewModel {
   markSingleAsUnread = (notificationId: string): void => {
     try {
       // Mark single notification as unread in model
-      NotificationListModel.markAsRead(notificationId);
+      NotificationListModel.markAsUnread(notificationId);
       
       // Get updated notifications from model
       const updatedNotifications = NotificationListModel.getAllNotifications();

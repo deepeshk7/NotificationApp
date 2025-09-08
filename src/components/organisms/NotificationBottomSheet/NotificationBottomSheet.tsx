@@ -15,11 +15,13 @@ import { Overlay } from '../../atoms/Overlay/Overlay';
 import { BottomSheetOption } from '../../molecules/BottomSheetOption/BottomSheetOption';
 import { fonts } from '../../../config/fonts.ts';
 import { spacing, radius } from '../../../config/styleConsts.ts';
+import { LocalizedNotificationItem } from '../../../viewmodels/NotificationBottomSheetViewModel';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface NotificationBottomSheetProps {
   visible: boolean;
+  selectedNotification?: LocalizedNotificationItem | null; // ADD THIS
   onClose: () => void;
   onUnreadNotifications: () => void;
   onMarkAsRead: () => void;
@@ -30,6 +32,7 @@ interface NotificationBottomSheetProps {
 
 export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = ({
   visible,
+  selectedNotification, // ADD THIS
   onClose,
   onUnreadNotifications,
   onMarkAsRead,
@@ -69,6 +72,9 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
     return () => backHandler.remove();
   }, [visible, onClose]);
 
+  // Dynamically determine if notification is read
+  const isRead = selectedNotification?.isRead || false;
+
   const options = [
     {
       icon: 'notifications-none',
@@ -80,9 +86,12 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
       }
     },
     {
-      icon: 'check-circle-outline',
+      // DYNAMICALLY CHANGE ICON AND LABEL
+      icon: isRead ? 'radio-button-unchecked' : 'check-circle-outline',
       iconType: 'material' as const,
-      label: t('bottomSheet.options.markAsRead'),
+      label: isRead 
+        ? t('bottomSheet.options.markAsUnread', 'Mark as unread') 
+        : t('bottomSheet.options.markAsRead', 'Mark as read'),
       onPress: () => {
         onMarkAsRead();
         onClose();
@@ -197,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '300',
     color: '#000000',
-    fontFamily: fonts.franklinGothicURW,  // Using custom font
+    fontFamily: fonts.franklinGothicURW,
     letterSpacing: -0.5,
   },
   closeButton: {

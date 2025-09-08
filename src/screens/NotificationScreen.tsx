@@ -141,6 +141,7 @@ export const NotificationScreen: React.FC = () => {
 
       <NotificationBottomSheet
         visible={showBottomSheet}
+        selectedNotification={selectedNotification}
         onClose={() => {
           setShowBottomSheet(false);
           setSelectedNotification(null);
