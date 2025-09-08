@@ -29,5 +29,89 @@
         "allMarkedRead": "All notifications marked as read",
         "markReadError": "Error marking notifications"
       }
+    },
+    "notifications": {
+      "items": {
+        "1": {
+          "title": "Trump announces new tariffs",
+          "description": "The former president proposes imposing 10% tariffs on all imported products."
+        },
+        "2": {
+          "title": "New episode available",
+          "description": "You can now watch the new episode of 'The News with Erik Camacho and Yoselin Sánchez'."
+        },
+        "3": {
+          "title": "Extreme weather hits Europe",
+          "description": "Storms have caused flight delays and power outages in several cities."
+        },
+        "4": {
+          "title": "New episode available",
+          "description": "The documentary series on Latin American politics premieres a new episode tonight."
+        },
+        "5": {
+          "title": "Financial markets rally",
+          "description": "European stock markets close higher after announcements from the Federal Reserve."
+        },
+        "6": {
+          "title": "Sports: Thrilling final",
+          "description": "The local team wins in the last minutes and becomes league champion."
+        },
+        "7": {
+          "title": "New episode available",
+          "description": "A new international analysis podcast episode is now live."
+        },
+        "8": {
+          "title": "Technology boom",
+          "description": "New AI startups are revolutionizing the market worldwide."
+        },
+        "9": {
+          "title": "New episode available",
+          "description": "Don't miss the exclusive interview with international leaders."
+        },
+        "10": {
+          "title": "Global economy under pressure",
+          "description": "Analysts warn of inflation and recession risks in 2026."
+        },
+        "11": {
+          "title": "Public health debate",
+          "description": "New healthcare policies spark heated discussions in parliament."
+        },
+        "12": {
+          "title": "Art and culture",
+          "description": "International contemporary art exhibition opens in Madrid."
+        },
+        "13": {
+          "title": "Space technology",
+          "description": "A private company announces new plans for Mars missions."
+        },
+        "14": {
+          "title": "New episode available",
+          "description": "Exclusive interview on economic trends in Latin America."
+        },
+        "15": {
+          "title": "Education in transformation",
+          "description": "New hybrid models are being introduced in top universities."
+        },
+        "16": {
+          "title": "Government announces reforms",
+          "description": "New labor legislation changes to be implemented next year."
+        },
+        "17": {
+          "title": "Environment at risk",
+          "description": "Reports warn of accelerated deforestation in the Amazon rainforest."
+        },
+        "18": {
+          "title": "Science and health",
+          "description": "New scientific discovery could revolutionize medical treatments."
+        },
+        "19": {
+          "title": "Digital security",
+          "description": "Cyberattacks on companies are increasing, experts advise stronger measures."
+        },
+        "20": {
+          "title": "Tourism recovery",
+          "description": "The global tourism sector shows strong signs of growth."
+        }
+      }
     }
   }

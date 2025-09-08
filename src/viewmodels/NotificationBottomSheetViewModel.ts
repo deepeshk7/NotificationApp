@@ -1,32 +1,34 @@
 import i18n from '../config/localization/i18n';
+import NotificationListModel from '../models/NotificationListModel';
 
-export interface Notification {
+// Interface for localized notification (what the UI uses)
+export interface LocalizedNotificationItem {
   id: string;
   title: string;
-  message: string;
-  timestamp: string;
+  description: string;
+  date: string;
+  image: string;
   isRead: boolean;
-  image?: string;
 }
 
 export class NotificationBottomSheetViewModel {
-  private notifications: Notification[];
-  private setNotifications: (notifications: Notification[]) => void;
+  private setNotifications: (notifications: LocalizedNotificationItem[]) => void;
   private showToast?: (message: string, type: 'success' | 'error') => void;
 
   constructor(
-    notifications: Notification[],
-    setNotifications: (notifications: Notification[]) => void,
+    setNotifications: (notifications: LocalizedNotificationItem[]) => void,
     showToast?: (message: string, type: 'success' | 'error') => void
   ) {
-    this.notifications = notifications;
     this.setNotifications = setNotifications;
     this.showToast = showToast;
   }
 
   deleteAllNotifications = (): void => {
     try {
-      // Clear the notifications array
+      // Clear notifications in model
+      NotificationListModel.deleteAllNotifications();
+      
+      // Update UI state
       this.setNotifications([]);
       
       // Show success message with localization
@@ -45,10 +47,11 @@ export class NotificationBottomSheetViewModel {
 
   markAllAsRead = (): void => {
     try {
-      const updatedNotifications = this.notifications.map(notif => ({
-        ...notif,
-        isRead: true
-      }));
+      // Mark all as read in model
+      NotificationListModel.markAllAsRead();
+      
+      // Get updated notifications from model
+      const updatedNotifications = NotificationListModel.getAllNotifications();
       this.setNotifications(updatedNotifications);
       
       if (this.showToast) {
@@ -65,11 +68,11 @@ export class NotificationBottomSheetViewModel {
   };
 
   getUnreadCount = (): number => {
-    return this.notifications.filter(notif => !notif.isRead).length;
+    return NotificationListModel.getUnreadCount();
   };
 
-  getUnreadNotifications = (): Notification[] => {
-    return this.notifications.filter(notif => !notif.isRead);
+  getUnreadNotifications = (): LocalizedNotificationItem[] => {
+    return NotificationListModel.getUnreadNotifications();
   };
 
   // Placeholder methods for navigation - will be implemented by team

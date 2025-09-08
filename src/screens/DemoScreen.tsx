@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   FlatList,
@@ -9,60 +9,45 @@ import {
   Image,
   Alert
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { NotificationBottomSheet } from '../components/organisms/NotificationBottomSheet/NotificationBottomSheet';
 import { ConfirmationModal } from '../components/molecules/ConfirmationModal/ConfirmationModal';
-import { NotificationBottomSheetViewModel, Notification } from '../viewmodels/NotificationBottomSheetViewModel';
+import { NotificationBottomSheetViewModel, LocalizedNotificationItem } from '../viewmodels/NotificationBottomSheetViewModel';
 import { Typography } from '../components/atoms/Typography/Typography';
-
-// Mock data for demonstration
-const mockNotifications: Notification[] = [
-  {
-    id: '1',
-    title: 'Trump anuncia nuevos aranceles',
-    message: 'El expresidente propone imponer aranceles del 10% a todos los productos importados',
-    timestamp: '12 nov 2025 | 14:49 CST',
-    isRead: false,
-    image: 'https://via.placeholder.com/100'
-  },
-  {
-    id: '2',
-    title: 'Nuevo episodio disponible',
-    message: 'Ya puedes ver el nuevo capítulo de "Las Noticias con Erik Camacho y Yoselin Sánchez"',
-    timestamp: '12 nov 2025 | 14:49 CST',
-    isRead: false,
-    image: 'https://via.placeholder.com/100'
-  },
-  {
-    id: '3',
-    title: '¿Te interesan las noticias internacionales?',
-    message: 'Puedes seguir los temas globales más relevantes desde tu perfil.',
-    timestamp: '12 nov 2025 | 14:49 CST',
-    isRead: true,
-    image: 'https://via.placeholder.com/100'
-  }
-];
+import NotificationListModel from '../models/NotificationListModel';
+import { useUnifiedLocalization } from '../hooks/useUnifiedLocalization';
 
 export const DemoScreen: React.FC = () => {
-  const { t } = useTranslation();
-  const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
+  const { 
+    currentLanguage, 
+    switchLanguage, 
+    getDemoScreenStrings 
+  } = useUnifiedLocalization();
+  
+  const strings = getDemoScreenStrings();
+  const [notifications, setNotifications] = useState<LocalizedNotificationItem[]>([]);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null);
+  const [selectedNotification, setSelectedNotification] = useState<LocalizedNotificationItem | null>(null);
 
-  // Initialize ViewModel
+  // Load notifications from model on mount and when language changes
+  useEffect(() => {
+    // Set language in model
+    NotificationListModel.setLanguage(currentLanguage);
+    // Get localized notifications
+    const loadedNotifications = NotificationListModel.getAllNotifications();
+    setNotifications(loadedNotifications);
+  }, [currentLanguage]);
+
+  // Initialize ViewModel - now with correct types
   const viewModel = new NotificationBottomSheetViewModel(
-    notifications,
     setNotifications,
     (message, type) => {
-      Alert.alert(
-        t(`demoScreen.${type}`),
-        message
-      );
+      const alertTitle = type === 'success' ? strings.success : strings.error;
+      Alert.alert(alertTitle, message);
     }
   );
 
-  const handleLongPress = (notification: Notification) => {
+  const handleLongPress = (notification: LocalizedNotificationItem) => {
     setSelectedNotification(notification);
     setShowBottomSheet(true);
   };
@@ -77,42 +62,68 @@ export const DemoScreen: React.FC = () => {
     setShowBottomSheet(false);
   };
 
-  const renderNotification = ({ item }: { item: Notification }) => (
-    <TouchableOpacity
-      style={styles.notificationCard}
-      onLongPress={() => handleLongPress(item)}
-      delayLongPress={500}
-    >
-      <View style={styles.notificationContent}>
-        {!item.isRead && <View style={styles.unreadDot} />}
-        <View style={styles.textContent}>
-          <Text style={styles.notificationTitle}>{item.title}</Text>
-          <Text style={styles.notificationMessage} numberOfLines={2}>
-            {item.message}
-          </Text>
-          <Text style={styles.timestamp}>{item.timestamp}</Text>
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    
+    if (diffHours < 1) return 'Just now';
+    if (diffHours < 24) return `${diffHours}h ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    return date.toLocaleDateString();
+  };
+
+  const renderNotification = ({ item }: { item: LocalizedNotificationItem }) => {
+    return (
+      <TouchableOpacity
+        style={styles.notificationCard}
+        onLongPress={() => handleLongPress(item)}
+        delayLongPress={500}
+      >
+        <View style={styles.notificationContent}>
+          {!item.isRead && <View style={styles.unreadDot} />}
+          <View style={styles.textContent}>
+            <Text style={styles.notificationTitle}>{item.title}</Text>
+            <Text style={styles.notificationMessage} numberOfLines={2}>
+              {item.description}
+            </Text>
+            <Text style={styles.timestamp}>{formatDate(item.date)}</Text>
+          </View>
+          <Image 
+            source={{ uri: item.image }} 
+            style={styles.thumbnail}
+            defaultSource={{ uri: 'https://via.placeholder.com/60' }}
+          />
         </View>
-        {item.image && (
-          <Image source={{ uri: item.image }} style={styles.thumbnail} />
-        )}
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Typography variant="title">{t('demoScreen.title')}</Typography>
+        <Typography variant="title">{strings.title}</Typography>
+        <TouchableOpacity 
+          style={styles.languageToggle}
+          onPress={switchLanguage}
+        >
+          <Text style={styles.languageText}>
+            {currentLanguage === 'es' ? 'EN' : 'ES'}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <FlatList
         data={notifications}
         renderItem={renderNotification}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={notifications.length === 0 ? styles.emptyListContent : styles.listContent}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Typography variant="body">{t('demoScreen.emptyMessage')}</Typography>
+            <Typography variant="body">{strings.emptyMessage}</Typography>
           </View>
         }
       />
@@ -122,16 +133,20 @@ export const DemoScreen: React.FC = () => {
         onClose={() => setShowBottomSheet(false)}
         onUnreadNotifications={() => {
           viewModel.handleUnreadNotifications();
+          setShowBottomSheet(false);
         }}
         onMarkAsRead={() => {
           viewModel.markAllAsRead();
+          setShowBottomSheet(false);
         }}
         onDeleteNotifications={() => {
           viewModel.handleDeleteNotifications();
+          setShowBottomSheet(false);
         }}
         onDeleteAll={handleDeleteAll}
         onAdminNotifications={() => {
           viewModel.handleAdminNotifications();
+          setShowBottomSheet(false);
         }}
       />
 
@@ -153,9 +168,27 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: 'white',
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0'
+    borderBottomColor: '#e0e0e0',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  languageToggle: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 4,
+    backgroundColor: '#f0f0f0'
+  },
+  languageText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333'
   },
   listContent: {
+    padding: 16
+  },
+  emptyListContent: {
+    flex: 1,
     padding: 16
   },
   notificationCard: {
@@ -205,9 +238,10 @@ const styles = StyleSheet.create({
     color: '#999'
   },
   thumbnail: {
-    width: 80,
-    height: 80,
-    borderRadius: 4
+    width: 60,
+    height: 60,
+    borderRadius: 4,
+    backgroundColor: '#f0f0f0'
   },
   emptyContainer: {
     flex: 1,

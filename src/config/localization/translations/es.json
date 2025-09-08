@@ -29,5 +29,89 @@
         "allMarkedRead": "Todas las notificaciones marcadas como leídas",
         "markReadError": "Error al marcar notificaciones"
       }
+    },
+    "notifications": {
+      "items": {
+        "1": {
+          "title": "Trump anuncia nuevos aranceles",
+          "description": "El expresidente propone imponer aranceles del 10% a todos los productos importados."
+        },
+        "2": {
+          "title": "Nuevo episodio disponible",
+          "description": "Ya puedes ver el nuevo capítulo de 'Las Noticias con Erik Camacho y Yoselin Sánchez'."
+        },
+        "3": {
+          "title": "Clima extremo golpea Europa",
+          "description": "Las tormentas han causado retrasos en vuelos y cortes de energía en varias ciudades."
+        },
+        "4": {
+          "title": "Nuevo episodio disponible",
+          "description": "La serie documental sobre política latinoamericana estrena nuevo episodio esta noche."
+        },
+        "5": {
+          "title": "Mercados financieros al alza",
+          "description": "Las bolsas europeas cierran en positivo tras anuncios de la Reserva Federal."
+        },
+        "6": {
+          "title": "Deportes: Final emocionante",
+          "description": "El equipo local gana en los últimos minutos y se corona campeón de liga."
+        },
+        "7": {
+          "title": "Nuevo episodio disponible",
+          "description": "Un nuevo episodio del podcast de análisis internacional ya está en vivo."
+        },
+        "8": {
+          "title": "Auge tecnológico",
+          "description": "Nuevas startups de IA están revolucionando el mercado mundial."
+        },
+        "9": {
+          "title": "Nuevo episodio disponible",
+          "description": "No te pierdas la entrevista exclusiva con líderes internacionales."
+        },
+        "10": {
+          "title": "Economía global bajo presión",
+          "description": "Analistas advierten sobre riesgos de inflación y recesión en 2026."
+        },
+        "11": {
+          "title": "Debate de salud pública",
+          "description": "Nuevas políticas de salud generan intensas discusiones en el parlamento."
+        },
+        "12": {
+          "title": "Arte y cultura",
+          "description": "Exposición internacional de arte contemporáneo abre en Madrid."
+        },
+        "13": {
+          "title": "Tecnología espacial",
+          "description": "Empresa privada anuncia nuevos planes para misiones a Marte."
+        },
+        "14": {
+          "title": "Nuevo episodio disponible",
+          "description": "Entrevista exclusiva sobre tendencias económicas en América Latina."
+        },
+        "15": {
+          "title": "Educación en transformación",
+          "description": "Nuevos modelos híbridos se implementan en universidades de prestigio."
+        },
+        "16": {
+          "title": "Gobierno anuncia reformas",
+          "description": "Nueva legislación laboral entrará en vigor el próximo año."
+        },
+        "17": {
+          "title": "Medio ambiente en riesgo",
+          "description": "Informes alertan sobre deforestación acelerada en la selva amazónica."
+        },
+        "18": {
+          "title": "Ciencia y salud",
+          "description": "Nuevo descubrimiento científico podría revolucionar tratamientos médicos."
+        },
+        "19": {
+          "title": "Seguridad digital",
+          "description": "Aumentan ciberataques a empresas, expertos recomiendan reforzar medidas."
+        },
+        "20": {
+          "title": "Recuperación turística",
+          "description": "El sector turístico mundial muestra fuertes señales de crecimiento."
+        }
+      }
     }
   }
