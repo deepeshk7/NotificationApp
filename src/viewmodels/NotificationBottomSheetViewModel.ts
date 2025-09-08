@@ -27,7 +27,7 @@ export class NotificationBottomSheetViewModel {
   refreshNotifications = async (): Promise<void> => {
     try {
       // Simulate API delay
-    await new Promise<void>(resolve => setTimeout(() => resolve(), 1500));
+      await new Promise<void>(resolve => setTimeout(() => resolve(), 1500));
       
       // In production, this would be an API call:
       // const response = await fetch('/api/notifications');
@@ -52,6 +52,7 @@ export class NotificationBottomSheetViewModel {
     }
   };
 
+  // Delete all notifications
   deleteAllNotifications = (): void => {
     try {
       // Clear notifications in model
@@ -74,6 +75,32 @@ export class NotificationBottomSheetViewModel {
     }
   };
 
+  // Delete a single notification
+  deleteSingleNotification = (notificationId: string): void => {
+    try {
+      // Remove notification from model
+      const removed = NotificationListModel.removeNotification(notificationId);
+      
+      if (removed) {
+        // Get updated notifications from model
+        const updatedNotifications = NotificationListModel.getAllNotifications();
+        this.setNotifications(updatedNotifications);
+        
+        if (this.showToast) {
+          this.showToast(i18n.t('demoScreen.toasts.notificationDeleted', 'Notification deleted'), 'success');
+        }
+        
+        console.log('Notification deleted:', notificationId);
+      }
+    } catch (error) {
+      console.error('Error deleting notification:', error);
+      if (this.showToast) {
+        this.showToast(i18n.t('demoScreen.toasts.deleteError'), 'error');
+      }
+    }
+  };
+
+  // Mark all notifications as read
   markAllAsRead = (): void => {
     try {
       // Mark all as read in model
@@ -96,12 +123,65 @@ export class NotificationBottomSheetViewModel {
     }
   };
 
+  // Mark a single notification as read
+  markSingleAsRead = (notificationId: string): void => {
+    try {
+      // Mark single notification as read in model
+      NotificationListModel.markAsRead(notificationId);
+      
+      // Get updated notifications from model
+      const updatedNotifications = NotificationListModel.getAllNotifications();
+      this.setNotifications(updatedNotifications);
+      
+      if (this.showToast) {
+        this.showToast(i18n.t('demoScreen.toasts.markedAsRead', 'Marked as read'), 'success');
+      }
+      
+      console.log('Notification marked as read:', notificationId);
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+      if (this.showToast) {
+        this.showToast(i18n.t('demoScreen.toasts.markReadError'), 'error');
+      }
+    }
+  };
+
+  // Mark a single notification as unread
+  markSingleAsUnread = (notificationId: string): void => {
+    try {
+      // Mark single notification as unread in model
+      NotificationListModel.markAsRead(notificationId);
+      
+      // Get updated notifications from model
+      const updatedNotifications = NotificationListModel.getAllNotifications();
+      this.setNotifications(updatedNotifications);
+      
+      if (this.showToast) {
+        this.showToast(i18n.t('demoScreen.toasts.markedAsUnread', 'Marked as unread'), 'success');
+      }
+      
+      console.log('Notification marked as unread:', notificationId);
+    } catch (error) {
+      console.error('Error marking notification as unread:', error);
+      if (this.showToast) {
+        this.showToast(i18n.t('demoScreen.toasts.markReadError'), 'error');
+      }
+    }
+  };
+
+  // Get unread count
   getUnreadCount = (): number => {
     return NotificationListModel.getUnreadCount();
   };
 
+  // Get unread notifications
   getUnreadNotifications = (): LocalizedNotificationItem[] => {
     return NotificationListModel.getUnreadNotifications();
+  };
+
+  // Get all notifications
+  getAllNotifications = (): LocalizedNotificationItem[] => {
+    return NotificationListModel.getAllNotifications();
   };
 
   // Placeholder methods for navigation - will be implemented by team

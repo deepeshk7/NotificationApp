@@ -4,7 +4,6 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
   SafeAreaView,
   Text,
   Image,
@@ -142,18 +141,33 @@ export const NotificationScreen: React.FC = () => {
 
       <NotificationBottomSheet
         visible={showBottomSheet}
-        onClose={() => setShowBottomSheet(false)}
+        onClose={() => {
+          setShowBottomSheet(false);
+          setSelectedNotification(null);
+        }}
         onUnreadNotifications={() => {
           viewModel.handleUnreadNotifications();
           setShowBottomSheet(false);
         }}
         onMarkAsRead={() => {
-          viewModel.markAllAsRead();
+          // Toggle between read/unread states
+          if (selectedNotification) {
+            if (!selectedNotification.isRead) {
+              viewModel.markSingleAsRead(selectedNotification.id);
+            } else {
+              viewModel.markSingleAsUnread(selectedNotification.id);
+            }
+          }
           setShowBottomSheet(false);
+          setSelectedNotification(null);
         }}
         onDeleteNotifications={() => {
-          viewModel.handleDeleteNotifications();
+          // Optional: Delete only the selected notification
+          if (selectedNotification) {
+            viewModel.deleteSingleNotification(selectedNotification.id);
+          }
           setShowBottomSheet(false);
+          setSelectedNotification(null);
         }}
         onDeleteAll={handleDeleteAll}
         onAdminNotifications={() => {
