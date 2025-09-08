@@ -10,12 +10,13 @@ import {
 import NotificationListModel from '../models/NotificationListModel';
 
 export const useUnifiedLocalization = () => {
+  // Fix: Initialize from i18n current language
   const [currentLanguage, setCurrentLanguage] = useState<'en' | 'es'>(
     (i18n.language as 'en' | 'es') || 'es'
   );
 
   useEffect(() => {
-    // Update model language when i18n language changes
+    // Update model language when hook language changes
     NotificationListModel.setLanguage(currentLanguage);
   }, [currentLanguage]);
 
@@ -24,7 +25,7 @@ export const useUnifiedLocalization = () => {
     return getText(data, currentLanguage);
   };
 
-  // Helper to switch language
+  // Fixed switch language function
   const switchLanguage = () => {
     const newLang = currentLanguage === 'es' ? 'en' : 'es';
     setCurrentLanguage(newLang);

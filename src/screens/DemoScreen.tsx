@@ -111,10 +111,11 @@ export const DemoScreen: React.FC = () => {
           onPress={switchLanguage}
         >
           <Text style={styles.languageText}>
-            {currentLanguage === 'es' ? 'EN' : 'ES'}
+            {currentLanguage.toUpperCase()}
           </Text>
         </TouchableOpacity>
       </View>
+      
 
       <FlatList
         data={notifications}
