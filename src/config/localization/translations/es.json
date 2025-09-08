@@ -1,0 +1,33 @@
+{
+    "bottomSheet": {
+      "title": "Opciones",
+      "options": {
+        "unreadNotifications": "Notificaciones sin leer",
+        "markAsRead": "Marcar como leído",
+        "deleteNotifications": "Eliminar notificaciones",
+        "deleteAllNotifications": "Eliminar todas las notificaciones",
+        "adminNotifications": "Administrar notificaciones"
+      }
+    },
+    "confirmationModal": {
+      "deleteAll": {
+        "title": "¿Quieres borrar todas las notificaciones?",
+        "message": "Borrar todas las notificaciones eliminará todo el contenido de tu bandeja de notificaciones.",
+        "subtitle": "Esta acción no se puede deshacer. ¿Quieres continuar?",
+        "confirmButton": "Eliminar todo",
+        "cancelButton": "Cancelar"
+      }
+    },
+    "demoScreen": {
+      "title": "Mis notificaciones",
+      "emptyMessage": "No tienes notificaciones",
+      "success": "Éxito",
+      "error": "Error",
+      "toasts": {
+        "allDeleted": "Todas las notificaciones eliminadas",
+        "deleteError": "Error al eliminar notificaciones",
+        "allMarkedRead": "Todas las notificaciones marcadas como leídas",
+        "markReadError": "Error al marcar notificaciones"
+      }
+    }
+  }

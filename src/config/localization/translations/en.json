@@ -1,0 +1,33 @@
+{
+    "bottomSheet": {
+      "title": "Options",
+      "options": {
+        "unreadNotifications": "Unread notifications",
+        "markAsRead": "Mark as read",
+        "deleteNotifications": "Delete notifications",
+        "deleteAllNotifications": "Delete all notifications",
+        "adminNotifications": "Manage notifications"
+      }
+    },
+    "confirmationModal": {
+      "deleteAll": {
+        "title": "Do you want to delete all notifications?",
+        "message": "Deleting all notifications will remove all content from your notification tray.",
+        "subtitle": "This action cannot be undone. Do you want to continue?",
+        "confirmButton": "Delete all",
+        "cancelButton": "Cancel"
+      }
+    },
+    "demoScreen": {
+      "title": "My notifications",
+      "emptyMessage": "You have no notifications",
+      "success": "Success",
+      "error": "Error",
+      "toasts": {
+        "allDeleted": "All notifications deleted",
+        "deleteError": "Error deleting notifications",
+        "allMarkedRead": "All notifications marked as read",
+        "markReadError": "Error marking notifications"
+      }
+    }
+  }
