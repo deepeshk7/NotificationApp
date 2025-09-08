@@ -87,7 +87,7 @@ export const NotificationBottomSheet: React.FC<NotificationBottomSheetProps> = (
     },
     {
       // DYNAMICALLY CHANGE ICON AND LABEL
-      icon: isRead ? 'radio-button-unchecked' : 'check-circle-outline',
+      icon: isRead ? 'markunread' : 'check-circle-outline',
       iconType: 'material' as const,
       label: isRead 
         ? t('bottomSheet.options.markAsUnread', 'Mark as unread') 
